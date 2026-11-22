@@ -1,0 +1,52 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: edunexus-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://ep-misty-unit-aydtxcou.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require}
+    username: ${SPRING_DATASOURCE_USERNAME:neondb_owner}
+    password: ${SPRING_DATASOURCE_PASSWORD:npg_rIbMwn2v4hKV}
+    driver-class-name: org.postgresql.Driver
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        format_sql: false
+    show-sql: false
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY:${GEMINI_API_KEY:gsk_dummy_key}}
+      base-url: ${AI_BASE_URL:https://api.groq.com/openai}
+      chat:
+        options:
+          model: llama-3.3-70b-versatile
+
+jwt:
+  secret: ${JWT_SECRET:edubridge_super_secret_jwt_key_2026_change_me_super_long_secret_key_12345}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+
+groq:
+  api-key: ${GROQ_API_KEY:}
+
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+
+cloudinary:
+  cloud-name: ${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:}
+  api-key: ${CLOUDINARY_API_KEY:}
+  api-secret: ${CLOUDINARY_API_SECRET:}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080,https://edu-bridge-lac.vercel.app}
+

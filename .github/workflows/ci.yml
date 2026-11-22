@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  frontend-build:
+    name: Build Next.js Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: 'frontend/pnpm-lock.yaml'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --noEmit
+      - run: pnpm run build
+        env:
+          DATABASE_URL: "postgresql://neondb_owner:npg_rIbMwn2v4hKV@ep-misty-unit-aydtxcou.c-5.us-east-2.aws.neon.tech/neondb?sslmode=require"
+          NEXTAUTH_SECRET: "9add56fcd6c454013cdd87db8ac5b15553a95d63d689e59f6545c250ca66f7fd"
+          NEXTAUTH_URL: "http://localhost:3000"
+
+  backend-build:
+    name: Build Spring Boot 3 Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - run: mvn clean compile

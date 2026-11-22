@@ -1,0 +1,11 @@
+{
+  "name": "edunexus-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "cd frontend && pnpm dev",
+    "dev:backend": "cd backend && mvn spring-boot:run",
+    "build:frontend": "cd frontend && pnpm build",
+    "build:backend": "cd backend && mvn clean compile"
+  }
+}
